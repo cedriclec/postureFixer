@@ -17,44 +17,74 @@ import RPi.GPIO as GPIO
 # instead of physical pin numbers
 GPIO.setmode(GPIO.BCM)
 
+
 # Define GPIO to use on Pi
-GPIO_TRIGGER = 23
-GPIO_ECHO = 24
+SENSOR_TOP = 1
+GPIO_TRIGGER_TOP = 23
+GPIO_ECHO_TOP = 24
 
-print ("Ultrasonic Measurement")
+GPIO_TRIGGER_DOWN = 23 #TODO
+GPIO_ECHO_DOWN = 24 #TODO
+DOWN = 2
 
-# Set pins as output and input
-GPIO.setup(GPIO_TRIGGER,GPIO.OUT)  # Trigger
-GPIO.setup(GPIO_ECHO,GPIO.IN)      # Echo
+def readSensorDistance(sensorName):
+  print ("Ultrasonic Measurement ", sensorName)
+  # Use BCM GPIO references
+  # instead of physical pin numbers
+  GPIO.setmode(GPIO.BCM)
 
-# Set trigger to False (Low)
-GPIO.output(GPIO_TRIGGER, False)
+  (gpioTrigger, gpioEcho) = getGpioSensorInfo(sensorName)
+  # Set pins as output and input
+  print("gpioTrigger ", gpioTrigger)
+  GPIO.setup(gpioTrigger,GPIO.OUT)  # Trigger
+  GPIO.setup(gpioEcho,GPIO.IN)      # Echo
 
-# Allow module to settle
-time.sleep(0.5)
+  # Set trigger to  (Low)
+  GPIO.output(gpioTrigger, False)
 
-# Send 10us pulse to trigger
-GPIO.output(GPIO_TRIGGER, True)
-time.sleep(0.00001)
-GPIO.output(GPIO_TRIGGER, False)
-start = time.time()
-while GPIO.input(GPIO_ECHO)==0:
+  # Allow module to settle
+  time.sleep(0.5)
+
+  # Send 10us pulse to trigger
+  GPIO.output(gpioTrigger, True)
+  time.sleep(0.00001)
+  GPIO.output(gpioTrigger, False)
   start = time.time()
+  while GPIO.input(gpioEcho)==0:
+    start = time.time()
 
-while GPIO.input(GPIO_ECHO)==1:
-  stop = time.time()
+  while GPIO.input(gpioEcho)==1:
+    stop = time.time()
 
-# Calculate pulse length
-elapsed = stop-start
+  # Calculate pulse length
+  elapsed = stop-start
 
-# Distance pulse travelled in that time is time
-# multiplied by the speed of sound (cm/s)
-distance = elapsed * 34000
+  # Distance pulse travelled in that time is time
+  # multiplied by the speed of sound (cm/s)
+  distance = elapsed * 34000
 
-# That was the distance there and back so halve the value
-distance = distance / 2
+  # That was the distance there and back so halve the value
+  distance = distance / 2
 
-print("Distance : %.1f" % distance)
+  print("Distance : %.1f" % distance)
+  
+  # Reset GPIO settings
+  GPIO.cleanup()
 
-# Reset GPIO settings
-GPIO.cleanup()
+  return distance
+
+def getGpioSensorInfo(sensorName):
+  gpioTrigger = GPIO_TRIGGER_DOWN
+  gpioEcho = GPIO_ECHO_DOWN
+  if sensorName == "TOP":
+    print ("Read Top Sensor")
+
+    gpioTrigger = GPIO_TRIGGER_TOP
+    gpioEcho = GPIO_ECHO_TOP
+  else:
+      print ("Read Down Sensor")
+    
+  return (gpioTrigger, gpioEcho)
+
+    
+readSensorDistance("TOP")
