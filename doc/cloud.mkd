@@ -9,10 +9,46 @@ To finish, the user interface is nice and really easy to understand and user-fri
 
 However, it provides a free account, but if we send too much messages we can have to pay.
 
-##Function 
+---
+
+##Device
+###Device Type
+In our case we have only one kind of sensor, which is distanceDevice.
+
+###Device Thing
+
+In our case one device thing, but in database separate data according to id sensor
+
+**TODO** : May be use two seperate things instead of id different. 
+
+---
+
+##Communication 
+
+### Publish/Subscribe
+
+### Shadow
+Describe current state from one device.
+
+In our case, it describes the distance of each sensor.
+
+---
+
+##Rules TODO
+
+1. Add every sensor data on cloud
+
+---
+
+##Database
+
+Collect every information   
 
 
-###Be careful
+---
+
+
+##Be careful
 This free account is limited to 250 000 messages publish and received, so just be careful to :
 
 -   not send messages in a loop

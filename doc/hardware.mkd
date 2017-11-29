@@ -1,0 +1,37 @@
+#Hardware
+
+##Distance sensor
+![HC-SRO4][HC-SR04 images]
+
+###Description 
+Two sensors we are using to detect the position of the down back and the up face of the user in order to dectect user's inclination.
+
+###Connection
+VCC : 5V
+GND : GND
+TRIG : 23
+ECHO : 24
+
+![GPIO DOC][GPIO IMAGE]
+
+![Connection][Connection picture]
+
+
+It could be better with resistance
+
+
+###Implementation
+Currently we are getting sensor data using python code on raspberry.
+
+But it is possible that it could be more accurate by using C code. Or even use an Arduino which is better for reading sensor, but Arduino seems to be more difficult to communicate with Cloud and Smartphone than Raspberry. 
+
+
+###Python
+[Source code and explanation](http://www.manuel-esteban.com/lire-un-capteur-ultrason-hc-sr04-avec-un-raspberry-pi/)
+
+Sorry it'is in French :(
+
+
+[HC-SR04 images]:image/HCSR04.jpg
+[GPIO IMAGE]:image/gpio-doc.png
+[Connection picture]:image/connexionPicture.jpg
