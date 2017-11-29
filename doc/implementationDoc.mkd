@@ -1,0 +1,32 @@
+#Cloud
+
+##Awazon web service
+Cedric choose to use this solution cause it seems easier than the other tested (Artik Cloud, Azure, IBM, Google).
+
+Moreover it provides some source code to publish on AWS in python, c (two language we could use to read sensor data). 
+
+To finish, the user interface is nice and really easy to understand and user-friendly.
+
+However, it provides a free account, but if we send too much messages we can have to pay.
+
+###Be careful
+This free account is limited to 250 000 messages publish and received, so just be careful to :
+
+-   not send messages in a loop
+-   Turn off application when finished
+
+
+#Hardware
+
+##Distance sensor
+![HC-SRO4][HC-SR04 images]
+
+###Description 
+Two sensors we are using to detect the position of the down back and the up face of the user in order to dectect user's inclination.
+
+###Implementation
+Currently we are getting sensor data using python code on raspberry.
+
+But it is possible that it could be more accurate by using C code. Or even use an Arduino which is better for reading sensor, but Arduino seems to be more difficult to communicate with Cloud and Smartphone than Raspberry. 
+
+[HC-SR04 images]:image/HCSR04.jpg
