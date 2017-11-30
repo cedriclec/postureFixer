@@ -33,12 +33,13 @@ def customCallback(client, userdata, message):
     print(message.topic)
     print("--------------\n\n")
 
-def createJsonSensorsDistance(distanceTop, distanceBottom, userId):
+def createJsonSensorsDistance(distanceTop1, distanceTop2, distanceBottom1, distanceBottom2, userId = 1):
     #Limite to three number after virgule
-    #TODO Add userID
-    distanceTop = round(distanceTop, 3)
-    distanceBottom = round(distanceBottom, 3)
-    jsonSensors = json.dumps({"dateTime" : str(datetime.datetime.now()), "userID" : userId, "Top" : distanceTop, "Bottom" : distanceBottom})
+    distanceTop1 = round(distanceTop1, 3)
+    distanceBottom1 = round(distanceBottom1, 3)
+    distanceTop2 = round(distanceTop2, 3)
+    distanceBottom2 = round(distanceBottom2, 3)    
+    jsonSensors = json.dumps({"dateTime" : str(datetime.datetime.now()), "userID" : userId, "Top1" : distanceTop1, "Top2" : distanceTop2, "Bottom1" : distanceBottom1, "Bottom2" : distanceBottom2})
     return jsonSensors
 
 host = "all6qkgnylmz8.iot.us-west-2.amazonaws.com" #args.host
@@ -94,10 +95,12 @@ time.sleep(2)
 #Limite to one call to avoid having too much message sent
 i = 1
 while i:
-    distanceTOP = readSensorDistance("TOP")
-    distanceDOWN = 0
-#   distanceDOWN = readSensorDistance("DOWN")
-    JSONPayload = createJsonSensorsDistance(distanceTOP, distanceDOWN, userId = 1)
+    distanceTOP1 = readSensorDistance("TOP1")
+    distanceTOP2 = 0
+    distanceDOWN1 = 0
+    distanceDOWN2 = 0    
+#   distanceDOWN1 = readSensorDistance("DOWN1")
+    JSONPayload = createJsonSensorsDistance(distanceTOP1, distanceTOP2, distanceDOWN1, distanceDOWN2)
     print(JSONPayload)
     myAWSIoTMQTTClient.publish(topic, JSONPayload, 1)
     time.sleep(1)

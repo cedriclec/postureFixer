@@ -19,13 +19,17 @@ GPIO.setmode(GPIO.BCM)
 
 
 # Define GPIO to use on Pi
-SENSOR_TOP = 1
-GPIO_TRIGGER_TOP = 23
-GPIO_ECHO_TOP = 24
+GPIO_TRIGGER_TOP1 = 23
+GPIO_ECHO_TOP1 = 24
 
-GPIO_TRIGGER_DOWN = 23 #TODO
-GPIO_ECHO_DOWN = 24 #TODO
-DOWN = 2
+GPIO_TRIGGER_TOP2 = 23 #TODO
+GPIO_ECHO_TOP2 = 24 #TODO
+
+GPIO_TRIGGER_DOWN1 = 23 #TODO
+GPIO_ECHO_DOWN1 = 24 #TODO
+
+GPIO_TRIGGER_DOWN2 = 23 #TODO
+GPIO_ECHO_DOWN2 = 24 #TODO
 
 def readSensorDistance(sensorName):
   print ("Ultrasonic Measurement ", sensorName)
@@ -74,17 +78,29 @@ def readSensorDistance(sensorName):
   return distance
 
 def getGpioSensorInfo(sensorName):
-  gpioTrigger = GPIO_TRIGGER_DOWN
-  gpioEcho = GPIO_ECHO_DOWN
-  if sensorName == "TOP":
-    print ("Read Top Sensor")
-
-    gpioTrigger = GPIO_TRIGGER_TOP
-    gpioEcho = GPIO_ECHO_TOP
+  gpioTrigger = 0
+  gpioEcho = 0
+  if sensorName == "TOP1":
+    print ("Read Top1 Sensor")
+    gpioTrigger = GPIO_TRIGGER_TOP1
+    gpioEcho = GPIO_ECHO_TOP1
+  elif sensorName == "TOP2":
+    print ("Read Top1 Sensor")
+    gpioTrigger = GPIO_TRIGGER_TOP2
+    gpioEcho = GPIO_ECHO_TOP2
+  elif sensorName == "DOWN1":
+    print ("Read DOWN1 Sensor")
+    gpioTrigger = GPIO_TRIGGER_DOWN1
+    gpioEcho = GPIO_ECHO_DOWN1
+  elif sensorName == "DOWN2":
+    print ("Read DOWN2 Sensor")
+    gpioTrigger = GPIO_TRIGGER_DOWN2
+    gpioEcho = GPIO_ECHO_DOWN2    
   else:
-      print ("Read Down Sensor")
+      print ("Error !!!!!!! Sensor name not good")
     
   return (gpioTrigger, gpioEcho)
 
-    
-readSensorDistance("TOP")
+
+#Test function
+#readSensorDistance("TOP")
