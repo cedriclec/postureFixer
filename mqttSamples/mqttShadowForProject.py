@@ -24,16 +24,7 @@ import argparse
 from readSensorOnce import readSensorDistance
 
 
-# Shadow JSON schema:
-#
-# Name: distanceDevice
-# {
-#	"state": {
-#		"distance":{
-#			"value":<INT VALUE>
-#		}
-#	}
-# }
+
 
 # Custom Shadow callback
 def customShadowCallback_Update(payload, responseStatus, token):
@@ -45,7 +36,8 @@ def customShadowCallback_Update(payload, responseStatus, token):
         payloadDict = json.loads(payload)
         print("~~~~~~~~~~~~~~~~~~~~~~~")
         print("Update request with token: " + token + " accepted!")
-        print("property: " + str(payloadDict["state"]["desired"]["property"]))
+        #print("property: " + str(payloadDict["state"]["desired"]["property"]))
+        print("property: " + str(payloadDict["state"]["desired"]))
         print("~~~~~~~~~~~~~~~~~~~~~~~\n\n")
     if responseStatus == "rejected":
         print("Update request " + token + " rejected!")
@@ -60,18 +52,35 @@ def customShadowCallback_Delete(payload, responseStatus, token):
     if responseStatus == "rejected":
         print("Delete request " + token + " rejected!")
 
-# Read in command-line parameters
-#parser = argparse.ArgumentParser()
-#parser.add_argument("-e", "--endpoint", action="store", required=True, dest="host", help="Your AWS IoT custom endpoint")
-#parser.add_argument("-r", "--rootCA", action="store", required=True, dest="rootCAPath", help="Root CA file path")
-#parser.add_argument("-c", "--cert", action="store", dest="certificatePath", help="Certificate file path")
-#parser.add_argument("-k", "--key", action="store", dest="privateKeyPath", help="Private key file path")
-#parser.add_argument("-w", "--websocket", action="store_true", dest="useWebsocket", default=False,
-                    #help="Use MQTT over WebSocket")
-#parser.add_argument("-n", "--thingName", action="store", dest="thingName", default="Bot", help="Targeted thing name")
-#parser.add_argument("-id", "--clientId", action="store", dest="clientId", default="basicShadowUpdater", help="Targeted client id")
+# Shadow JSON schema:
+#
+# Name: distanceDevice
+# {
+#	"state": {
+#		"Top":{
+#			"value":<INT VALUE>
+#		},
+#		"Bottom":{
+#			"value":<INT VALUE>
+#		}
+#	}
+# }
 
-#args = parser.parse_args()
+#JSONexqmple = '{"state":{"desired":{"property":' + str(loopCount) + '}}}'
+
+def createJsonSensorsDistance(distanceTop, distanceBottom):
+    #Limite to three number after virgule
+    distanceTop = round(distanceTop, 3)
+    distanceBottom = round(distanceBottom, 3)
+    #jsonSensors = json.dumps({"state": { "Top" : { "distance" : distanceTop}, "Bottom" : { "distance" : distanceBottom} } })
+    #jsonSensors = json.dumps({"state": { "Top" : distanceTop, "Bottom" : distanceBottom} })
+    #jsonSensors = json.dumps({"state":{"desired":{"property": distanceTop} } } )
+    jsonSensors = json.dumps({"state":{"desired":{ "Top" : distanceTop, "Bottom" : distanceBottom} } } )
+    print jsonSensors
+    return jsonSensors
+    
+
+
 host = "all6qkgnylmz8.iot.us-west-2.amazonaws.com" #args.host
 rootCAPath = "key/root-CA.crt" #args.rootCAPath
 certificatePath = "key/509e2f9bc0-certificate.pem.crt" #args.certificatePath
@@ -79,14 +88,6 @@ privateKeyPath = "key/509e2f9bc0-private.pem.key" #args.privateKeyPath
 useWebsocket = False #args.useWebsocket
 thingName = "distanceDevice" #args.thingName
 clientId = "postureUser" #args.clientId
-
-#if args.useWebsocket and args.certificatePath and args.privateKeyPath:
-#    parser.error("X.509 cert authentication and WebSocket are mutual exclusive. Please pick one.")
- #   exit(2)
-
-#if not args.useWebsocket and (not args.certificatePath or not args.privateKeyPath):
- #   parser.error("Missing credentials for authentication.")
-  #  exit(2)
 
 # Configure logging
 logger = logging.getLogger("AWSIoTPythonSDK.core")
@@ -122,16 +123,16 @@ deviceShadowHandler = myAWSIoTMQTTShadowClient.createShadowHandlerWithName(thing
 deviceShadowHandler.shadowDelete(customShadowCallback_Delete, 5)
 
 # Update shadow in a loop
-while True:
+#while True:
+i = 1
+while i:
+#Limite to one call to avoid having too much message sent
     distanceTOP = readSensorDistance("TOP")
     distanceDOWN = 0
 #   distanceDOWN = readSensorDistance("DOWN")
-    JSONPayload = '{"state":'
-    #JSONPayload += '{"TOP":{"distance":{"value":' + str(distanceTOP) + '}}}'
-    JSONPayload = '{"TOP":{"distance":' + str(distanceTOP) + '}}}'
-    #JSONPayload += '{"DOWN":{"distance":{"value":' + str(distanceDOWN) + '}}}'
-    JSONPayload += '}'
+    JSONPayload = createJsonSensorsDistance(distanceTOP, distanceDOWN)
     print(JSONPayload)
     deviceShadowHandler.shadowUpdate(JSONPayload, customShadowCallback_Update, 5)
-    time.sleep(1)
+    time.sleep(5)
+    i = 0
 
