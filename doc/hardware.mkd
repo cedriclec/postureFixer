@@ -16,9 +16,7 @@ ECHO : 24
 
 ![Connection][Connection picture]
 
-
 It could be better with resistance
-
 
 ###Implementation
 Currently we are getting sensor data using python code on raspberry.
@@ -30,7 +28,6 @@ But it is possible that it could be more accurate by using C code. Or even use a
 [Source code and explanation](http://www.manuel-esteban.com/lire-un-capteur-ultrason-hc-sr04-avec-un-raspberry-pi/)
 
 Sorry it'is in French :(
-
 
 [HC-SR04 images]:image/HCSR04.jpg
 [GPIO IMAGE]:image/gpio-doc.png

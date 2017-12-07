@@ -1,0 +1,1 @@
+include ':app', ':achartengine-0.6.0', ':achartengine-1.2.0'
