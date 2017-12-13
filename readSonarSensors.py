@@ -50,13 +50,11 @@ def customCallback(client, userdata, message):
     print(message.topic)
     print("--------------\n\n")
 
-def createJsonSensorsDistance(distanceTop1, distanceTop2, distanceBottom1, distanceBottom2, userId = 1):
+def createJsonSensorsDistance(distanceTop, distanceBottom, userId = 1):
     #Limited to three number after virgule
-    distanceTop1 = round(distanceTop1, 3)
-    distanceBottom1 = round(distanceBottom1, 3)
-    distanceTop2 = round(distanceTop2, 3)
-    distanceBottom2 = round(distanceBottom2, 3)    
-    jsonSensors = json.dumps({"dateTime" : str(datetime.datetime.now()), "userID" : userId, "Top1" : distanceTop1, "Top2" : distanceTop2, "Bottom1" : distanceBottom1, "Bottom2" : distanceBottom2})
+    distanceTop = round(distanceTop, 3)
+    distanceBottom = round(distanceBottom, 3)
+    jsonSensors = json.dumps({"dateTime" : str(datetime.datetime.now()), "userID" : userId, "Top" : distanceTop, "Bottom" : distanceBottom})
     return jsonSensors
 
 host = "all6qkgnylmz8.iot.us-west-2.amazonaws.com" #args.host
@@ -104,29 +102,32 @@ myAWSIoTMQTTClient.configureMQTTOperationTimeout(5)  # 5 sec
 # Connect and subscribe to AWS IoT
 myAWSIoTMQTTClient.connect()
 myAWSIoTMQTTClient.subscribe(topic, 1, customCallback)
-time.sleep(2)
+time.sleep(3)
 
 # Publish to the same topic in a loop forever
 
-distanceTop1 = 0
-distanceTop2 = 0
-distanceBottom1 = 0
-distanceBottom2 = 0
-i = 1
+distanceTop = 0
+distanceBottom = 0
+tempDistanceTop = 0
+tempDistanceBottom = 0
+
+i = 0 
 # call 5 times
-while i<=5:
-    distanceTop1 += readSensorDistance("TOP1")
-    #distanceTop2 += readSensorDistance("TOP1")
-    distanceBottom1 += readSensorDistance("BOTTOM1")    
-    #distanceBottom2 += readSensorDistance("BOTTOM2")
-    time.sleep(1)
-    i=i+1
+while i<2:
+        tempDistanceTop = readSensorDistance("TOP1")
+        tempDistanceBottom = readSensorDistance("BOTTOM1")    
+        if tempDistanceTop<300 and tempDistanceBottom<300:
+                distanceTop += tempDistanceTop
+                distanceBottom += tempDistanceBottom
+                time.sleep(1)
+                i=i+1
+                print(i)
+        else:
+                print("gg")
 
-distanceTop1Avg = distanceTop1 / i 
-distanceTop2Avg = distanceTop2 / i
-distanceBottom1Avg = distanceBottom1 / i
-distanceBottom2Avg = distanceBottom2 / i
+distanceTopAvg = distanceTop / i 
+distanceBottomAvg = distanceBottom / i
 
-JSONPayload = createJsonSensorsDistance(distanceTop1Avg, distanceTop2Avg, distanceBottom1Avg, distanceBottom2Avg)
+JSONPayload = createJsonSensorsDistance(distanceTopAvg, distanceBottomAvg)
 myAWSIoTMQTTClient.publish(topic, JSONPayload, 1)
 print(JSONPayload)

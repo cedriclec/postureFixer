@@ -25,8 +25,8 @@ GPIO_ECHO_TOP1 = 24
 #GPIO_TRIGGER_TOP2 = 23 #TODO
 #GPIO_ECHO_TOP2 = 24 #TODO
 
-GPIO_TRIGGER_DOWN1 = 5 #TODO
-GPIO_ECHO_DOWN1 = 6 #TODO
+GPIO_TRIGGER_DOWN1 = 5 
+GPIO_ECHO_DOWN1 = 6 
 
 #GPIO_TRIGGER_DOWN2 = 17 #TODO
 #GPIO_ECHO_DOWN2 = 27 #TODO
@@ -48,7 +48,7 @@ def readSensorDistance(sensorName):
   GPIO.output(gpioTrigger, False)
 
   # Allow module to settle
-  time.sleep(1)
+  time.sleep(2)
 
   # Send 10us pulse to trigger
   GPIO.output(gpioTrigger, True)
@@ -104,7 +104,7 @@ def getGpioSensorInfo(sensorName):
 
 
 #Test function
-readSensorDistance("TOP1")
+#ireadSensorDistance("TOP1")
 #readSensorDistance("TOP2")
-readSensorDistance("BOTTOM1")
+#readSensorDistance("BOTTOM1")
 #readSensorDistance("BOTTOM2")
