@@ -63,7 +63,7 @@ public class loading extends AppCompatActivity{
         };
         mTimer = new Timer();
         mTimer.schedule(mTask, 0, 1000);
-        
+
     }
 
     public void backClick(View view) {
