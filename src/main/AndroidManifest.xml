@@ -40,5 +40,5 @@
         <activity android:name=".settingRequest"
             android:label="Setting..."/>
     </application>
-    
+
 </manifest>

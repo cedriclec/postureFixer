@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Posture Fixer</string>
+    <string name="title">Posture Fixer</string>
+    <string name="menu_one">Setting Time</string>
+    <string name="one_specific">Specific Time</string>
+    <string name="one_start">Start Program</string>
+    <string name="one_end">End Program</string>
+    <string name="menu_two">Statistics</string>
+    <string name="menu_three">Setting Posture</string>
+    <string name="specific_start">Setting Start Time</string>
+    <string name="specific_end">Setting Finish Time</string>
+    <string name="next">Next</string>
+    <string name="finish">Finish</string>
+    <string name="back">Back</string>
+    <string name="returnHome">Return Home</string>
+</resources>
