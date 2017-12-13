@@ -54,7 +54,7 @@ def createJsonSensorsDistance(distanceTop, distanceBottom, userId = 1):
     #Limited to three number after virgule
     distanceTop = round(distanceTop, 3)
     distanceBottom = round(distanceBottom, 3)
-    jsonSensors = json.dumps({"dateTime" : str(datetime.datetime.now()), "userID" : userId, "Top" : distanceTop, "Bottom" : distanceBottom})
+    jsonSensors = json.dumps({"dateTime" : str(datetime.datetime.today().strftime("%Y%m%d")), "userID" : userId, "Top" : distanceTop, "Bottom" : distanceBottom})
     return jsonSensors
 
 host = "all6qkgnylmz8.iot.us-west-2.amazonaws.com" #args.host
@@ -113,17 +113,14 @@ tempDistanceBottom = 0
 
 i = 0 
 # call 5 times
-while i<2:
+while i<4:
         tempDistanceTop = readSensorDistance("TOP1")
         tempDistanceBottom = readSensorDistance("BOTTOM1")    
         if tempDistanceTop<300 and tempDistanceBottom<300:
                 distanceTop += tempDistanceTop
                 distanceBottom += tempDistanceBottom
-                time.sleep(1)
+                time.sleep(0.5)
                 i=i+1
-                print(i)
-        else:
-                print("gg")
 
 distanceTopAvg = distanceTop / i 
 distanceBottomAvg = distanceBottom / i

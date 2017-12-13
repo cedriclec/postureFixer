@@ -48,7 +48,7 @@ def readSensorDistance(sensorName):
   GPIO.output(gpioTrigger, False)
 
   # Allow module to settle
-  time.sleep(2)
+  time.sleep(1)
 
   # Send 10us pulse to trigger
   GPIO.output(gpioTrigger, True)
