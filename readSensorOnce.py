@@ -22,16 +22,17 @@ GPIO.setmode(GPIO.BCM)
 GPIO_TRIGGER_TOP1 = 23
 GPIO_ECHO_TOP1 = 24
 
-GPIO_TRIGGER_TOP2 = 23 #TODO
-GPIO_ECHO_TOP2 = 24 #TODO
+#GPIO_TRIGGER_TOP2 = 23 #TODO
+#GPIO_ECHO_TOP2 = 24 #TODO
 
-GPIO_TRIGGER_DOWN1 = 23 #TODO
-GPIO_ECHO_DOWN1 = 24 #TODO
+GPIO_TRIGGER_DOWN1 = 5 #TODO
+GPIO_ECHO_DOWN1 = 6 #TODO
 
-GPIO_TRIGGER_DOWN2 = 23 #TODO
-GPIO_ECHO_DOWN2 = 24 #TODO
+#GPIO_TRIGGER_DOWN2 = 17 #TODO
+#GPIO_ECHO_DOWN2 = 27 #TODO
 
 def readSensorDistance(sensorName):
+  GPIO.setwarnings(False)
   print ("Ultrasonic Measurement ", sensorName)
   # Use BCM GPIO references
   # instead of physical pin numbers
@@ -47,7 +48,7 @@ def readSensorDistance(sensorName):
   GPIO.output(gpioTrigger, False)
 
   # Allow module to settle
-  time.sleep(0.5)
+  time.sleep(1)
 
   # Send 10us pulse to trigger
   GPIO.output(gpioTrigger, True)
@@ -85,22 +86,25 @@ def getGpioSensorInfo(sensorName):
     gpioTrigger = GPIO_TRIGGER_TOP1
     gpioEcho = GPIO_ECHO_TOP1
   elif sensorName == "TOP2":
-    print ("Read Top1 Sensor")
+    print ("Read Top2 Sensor")
     gpioTrigger = GPIO_TRIGGER_TOP2
     gpioEcho = GPIO_ECHO_TOP2
-  elif sensorName == "DOWN1":
-    print ("Read DOWN1 Sensor")
+  elif sensorName == "BOTTOM1":
+    print ("Read BOTTOM1 Sensor")
     gpioTrigger = GPIO_TRIGGER_DOWN1
     gpioEcho = GPIO_ECHO_DOWN1
-  elif sensorName == "DOWN2":
-    print ("Read DOWN2 Sensor")
+  elif sensorName == "BOTTOM2":
+    print ("Read BOTTOM2 Sensor")
     gpioTrigger = GPIO_TRIGGER_DOWN2
     gpioEcho = GPIO_ECHO_DOWN2    
   else:
-      print ("Error !!!!!!! Sensor name not good")
+      print ("Error! Sensor name not good.")
     
   return (gpioTrigger, gpioEcho)
 
 
 #Test function
-#readSensorDistance("TOP")
+readSensorDistance("TOP1")
+#readSensorDistance("TOP2")
+readSensorDistance("BOTTOM1")
+#readSensorDistance("BOTTOM2")
