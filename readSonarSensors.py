@@ -54,7 +54,7 @@ def createJsonSensorsDistance(distanceTop, distanceBottom, userId = 1):
     #Limited to three number after virgule
     distanceTop = round(distanceTop, 3)
     distanceBottom = round(distanceBottom, 3)
-    jsonSensors = json.dumps({"dateTime" : str(datetime.datetime.today().strftime("%Y%m%d")), "userID" : userId, "Top" : distanceTop, "Bottom" : distanceBottom})
+    jsonSensors = json.dumps({"dateTime" : str(datetime.datetime.now().strftime("%Y%m%d%H%M%S")), "userID" : userId, "Top" : distanceTop, "Bottom" : distanceBottom})
     return jsonSensors
 
 host = "all6qkgnylmz8.iot.us-west-2.amazonaws.com" #args.host
