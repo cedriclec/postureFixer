@@ -36,6 +36,8 @@ public class specificStart extends AppCompatActivity {
         Intent intent_01 = new Intent(getApplicationContext(), specificFinish.class);
         intent_01.putExtra("startHour", String.valueOf(hour));
         intent_01.putExtra("startMinute", String.valueOf(minute));
+        intent_01.putExtra("distanceOne", getIntent().getStringExtra("distanceOne"));
+        intent_01.putExtra("distanceTwo", getIntent().getStringExtra("distanceTwo"));
         startActivity(intent_01);
     }
 }

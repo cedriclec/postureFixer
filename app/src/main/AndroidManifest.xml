@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.cee55.posturefixer">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -38,11 +40,11 @@
         <activity
             android:name=".specificFinish"
             android:label="Setting Finish Time" />
-        <activity android:name=".settingRequest"
-            android:label="Setting..."/>
+        <activity
+            android:name=".settingRequest"
+            android:label="Setting..." />
+        <activity android:name=".suggestPosture" />
+        <activity android:name=".exercise"></activity>
     </application>
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>

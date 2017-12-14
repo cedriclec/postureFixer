@@ -5,6 +5,10 @@ package com.example.cee55.posturefixer.tableDataBase;
  */
 
 public class distanceTable {
+    private double dateTime; //Key Payload
+    private double bottom;
+    private double top;
+    private double userId;
 
     public distanceTable() {
         dateTime = 0;
@@ -19,13 +23,19 @@ public class distanceTable {
         userId = Double.parseDouble(distDB.getuserId());
     }
 
-    private double dateTime; //Key Payload
-    private double bottom;
-    private double top;
-    private double userId;
-
-
     public String toString(){
         return "[DateTime : " + dateTime + " userID " + userId + " Bottom " + bottom +  " top " + top + "]";
+    }
+
+    public double getBottom(){
+        return bottom;
+    }
+
+    public double getTop(){
+        return top;
+    }
+
+    public double getDatetime(){
+        return dateTime;
     }
 }

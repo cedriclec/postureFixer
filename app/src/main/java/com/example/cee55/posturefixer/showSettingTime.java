@@ -32,8 +32,12 @@ public class showSettingTime extends AppCompatActivity {
     public void backClick(View view) {
         Intent intent_01 = new Intent(getApplicationContext(), MainActivity.class);
         intent_01.putExtra("status", "Running");
+        intent_01.putExtra("startHour", getIntent().getStringExtra("startHour"));
+        intent_01.putExtra("startMinute", getIntent().getStringExtra("startMinute"));
         intent_01.putExtra("finishHour", getIntent().getStringExtra("finishHour"));
         intent_01.putExtra("finishMinute", getIntent().getStringExtra("finishMinute"));
+        intent_01.putExtra("distanceOne", getIntent().getStringExtra("distanceOne"));
+        intent_01.putExtra("distanceTwo", getIntent().getStringExtra("distanceTwo"));
         startActivity(intent_01);
     }
 }

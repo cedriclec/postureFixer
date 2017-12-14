@@ -1,11 +1,12 @@
 package com.example.cee55.posturefixer;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import com.example.cee55.posturefixer.tableDataBase.distanceTable;
@@ -22,8 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class statistics extends AppCompatActivity {
-
-    String str =
+  String str =
             "[ { 'Bottom1' : 20, 'Bottom2' : 0, 'dateTime' : '19:35', 'Top1' : 10.984, 'Top2' : 0, 'userID' : 1},"+
                     "{ 'Bottom1' : 10, 'Bottom2' : 0, 'dateTime' : '19:40', 'Top1' : 215.354, 'Top2' : 0, 'userID' : 1}]";
     JSONArray jarray = new JSONArray(str);
@@ -54,6 +54,14 @@ public class statistics extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public void showExercise(View view){
+
+        Intent intent_01 = new Intent(getApplicationContext(), exercise.class);
+        intent_01.putExtra("distanceOne", getIntent().getStringExtra("distanceOne"));
+        intent_01.putExtra("distanceTwo", getIntent().getStringExtra("distanceTwo"));
+        startActivity(intent_01);
     }
 
     private void drawChart() throws JSONException {
@@ -158,7 +166,7 @@ public class statistics extends AppCompatActivity {
             params.height = 100;
             params.width = 100;
             layout.setLayoutParams(params);*/
-            mChartView = ChartFactory.getLineChartView(this, dataset, multiRenderer);
+          mChartView = ChartFactory.getLineChartView(this, dataset, multiRenderer);
             multiRenderer.setClickEnabled(true);
             multiRenderer.setSelectableBuffer(10);
             multiRenderer.setSelectableBuffer(10);
