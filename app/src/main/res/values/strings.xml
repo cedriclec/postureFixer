@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Posture Fixer</string>
     <string name="title">Posture Fixer</string>
     <string name="menu_one">Setting Time</string>
     <string name="one_specific">Specific Time</string>

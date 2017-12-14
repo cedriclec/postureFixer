@@ -5,8 +5,7 @@
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.cee55.myapplication.loading">
-
+    tools:context="com.example.cee55.posturefixer.loading">
     <ProgressBar
         android:id="@+id/bar"
         style="?android:attr/progressBarStyleHorizontal"

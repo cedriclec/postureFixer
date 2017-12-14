@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.cee55.myapplication">
+    package="com.example.cee55.posturefixer">
+
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="Posture Fixer"
+        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -20,21 +21,28 @@
             android:name=".settingTime"
             android:label="Setting Time" />
         <activity
+            android:name=".settingPosture"
+            android:label="Setting Posture" />
+        <activity
+            android:name=".statistics"
+            android:label="Statistics" />
+        <activity
+            android:name=".loading"
+            android:label="Setting..." />
+        <activity
+            android:name=".showSettingTime"
+            android:label="Show Setting Time" />
+        <activity
             android:name=".specificStart"
             android:label="Setting Start Time" />
         <activity
             android:name=".specificFinish"
             android:label="Setting Finish Time" />
-        <activity
-            android:name=".showSettingTime"
-            android:label="Show Setting Time" />
-        <activity
-            android:name=".settingPosture"
-            android:label="Setting Posture" />
-        <activity
-            android:name=".loading"
-            android:label="Setting..." />
-        <activity android:name=".statistics"></activity>
+        <activity android:name=".settingRequest"
+            android:label="Setting..."/>
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>

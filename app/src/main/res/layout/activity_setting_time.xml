@@ -5,7 +5,7 @@
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.cee55.myapplication.settingTime">
+    tools:context="com.example.cee55.posturefixer.settingTime">
 
     <Button
         android:id="@+id/specificTime"
