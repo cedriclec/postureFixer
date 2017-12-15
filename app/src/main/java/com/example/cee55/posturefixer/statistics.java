@@ -71,13 +71,25 @@ public class statistics extends AppCompatActivity {
         int[] top = new int[res3.length];
         int[] x = new int[res3.length];
         int[] result = new int[res3.length];
-        for(int i=0; i < res3.length; i++){
-            time[i] = Integer.toString((int)res3[i].getDatetime());
-            bottom[i] = (int)res3[i].getBottom();
-            top[i] = (int)res3[i].getTop();
-            x[i] = i+1;
+        /*if(getIntent().getStringExtra("distanceOne")!= null && getIntent().getStringExtra("distanceTwo")!= null) {
+            double distanceOne = Double.parseDouble(getIntent().getStringExtra("distanceOne"));
+            double distanceTwo = Double.parseDouble(getIntent().getStringExtra("distanceTwo"));
+            double inclination;*/
+            for (int i = 0; i < res3.length; i++) {
+                time[i] = Integer.toString((int) res3[i].getDatetime());
+                bottom[i] = (int) res3[i].getBottom();
+                top[i] = (int) res3[i].getTop();
+                x[i] = i + 1;
 
-        }
+               /* inclination = (distanceOne + distanceTwo) / (top[i] + bottom[i]);
+                if (!(inclination < 0.93 && inclination > 0.65)) {
+                    result[i] = 1; //bad posture
+                } else
+                    result[i] = 0; //good posture*/
+
+
+            }
+      //  }
 
 
 // Creating an  XYSeries for Income
@@ -86,10 +98,13 @@ public class statistics extends AppCompatActivity {
 // Creating an  XYSeries for Expense
         XYSeries topSeries = new XYSeries("Top");
 
+        //XYSeries resultSeries = new XYSeries("Result");
+
 // Adding data to Income and Expense Series
         for(int i=0;i<x.length;i++){
             bottomSeries.add(x[i], bottom[i]);
             topSeries.add(x[i],top[i]);
+          //  resultSeries.add(x[i], result[i]);
         }
 
 // Creating a dataset to hold each series
@@ -100,6 +115,8 @@ public class statistics extends AppCompatActivity {
 
 // Adding Expense Series to dataset
         dataset.addSeries(topSeries);
+
+      //  dataset.addSeries(resultSeries);
 
 // Creating XYSeriesRenderer to customize bottomSeries
         XYSeriesRenderer bottomRenderer = new XYSeriesRenderer();
@@ -116,6 +133,13 @@ public class statistics extends AppCompatActivity {
         topRenderer.setFillPoints(true);
         topRenderer.setLineWidth(2);
         topRenderer.setDisplayChartValues(true);
+
+/*        XYSeriesRenderer resultRenderer = new XYSeriesRenderer();
+        bottomRenderer.setColor(Color.DKGRAY);
+        bottomRenderer.setPointStyle(PointStyle.CIRCLE);
+        bottomRenderer.setFillPoints(true);
+        bottomRenderer.setLineWidth(2);
+        bottomRenderer.setDisplayChartValues(true);*/
 
 // Creating a XYMultipleSeriesRenderer to customize the whole chart
         int[] temp = new int[bottom.length + top.length];
@@ -158,6 +182,7 @@ public class statistics extends AppCompatActivity {
         // should be same
         multiRenderer.addSeriesRenderer(bottomRenderer);
         multiRenderer.addSeriesRenderer(topRenderer);
+        //multiRenderer.addSeriesRenderer(resultRenderer);
 
 // Creating an intent to plot line chart using dataset and multipleRenderer
         // Intent intent = ChartFactory.getLineChartIntent(getBaseContext(), dataset, multiRenderer);

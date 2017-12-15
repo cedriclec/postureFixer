@@ -48,7 +48,7 @@ public class cloudDatabase extends AppCompatActivity {
                     Map<String, String> exprAttrName = new HashMap<String, String>();
                     exprAttrName.put("#c", "dateTime");
                     DynamoDBScanExpression scanExpression = new DynamoDBScanExpression()
-                            .withFilterExpression("#c <= :val1 and #c >= :val2").withExpressionAttributeValues(exprAttrValue).withExpressionAttributeNames(exprAttrName);
+                            .withFilterExpression("#c >= :val1 and #c <= :val2").withExpressionAttributeValues(exprAttrValue).withExpressionAttributeNames(exprAttrName);
                     final PaginatedScanList<distanceTableDatabase> selectedDistance = (mapper.scan(distanceTableDatabase.class, scanExpression));
                     getEveryRowFromScanList(selectedDistance, resTmp, nbRow);
                 }catch (Exception e) {
