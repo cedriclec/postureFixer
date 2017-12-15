@@ -27,9 +27,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
+
 public class statistics extends AppCompatActivity {
     private GraphicalView mChartView;
     distanceTable res3[];
+    String suggestTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +44,12 @@ public class statistics extends AppCompatActivity {
         // TEST
         Context context = getApplicationContext();
        // distanceTable res2 = cloudDatabase.getLastItemInserted(context);
-         res3 = cloudDatabase.getRowsFromDateInterval(context,"20171215175519", "20171215200000");
-        //if(null!=getIntent().getStringExtra("startTime"))
-          //    res3 = cloudDatabase.getRowsFromDateInterval(context,getIntent().getStringExtra("startTime"), getIntent().getStringExtra("finishTime"));
-
+        // res3 = cloudDatabase.getRowsFromDateInterval(context,"20171215175519", "20171215200000");
+        if(null!=getIntent().getStringExtra("startTime")) {
+            Toast.makeText(getApplicationContext(), "Start ".concat(getIntent().getStringExtra("startTime")), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Finish ".concat(getIntent().getStringExtra("finishTime")), Toast.LENGTH_SHORT).show();
+            res3 = cloudDatabase.getRowsFromDateInterval(context, getIntent().getStringExtra("startTime"), getIntent().getStringExtra("finishTime"));
+        }
         // ENDTEST
 
         if(res3.length!=0 && getIntent().getStringExtra("distanceOne")!= null)
@@ -59,6 +64,7 @@ public class statistics extends AppCompatActivity {
         Intent intent_01 = new Intent(getApplicationContext(), exercise.class);
         intent_01.putExtra("distanceOne", getIntent().getStringExtra("distanceOne"));
         intent_01.putExtra("distanceTwo", getIntent().getStringExtra("distanceTwo"));
+        intent_01.putExtra("result", suggestTime);
         startActivity(intent_01);
     }
 
@@ -73,19 +79,22 @@ public class statistics extends AppCompatActivity {
             double distanceTwo = Double.parseDouble(getIntent().getStringExtra("distanceTwo"));
             double inclination;
             for (int i = 0; i < res3.length; i++) {
-                time[i] = Integer.toString((int) res3[i].getDatetime());
+                time[i] = Double.toString(res3[i].getDatetime());
                 bottom[i] = (int) res3[i].getBottom();
                 top[i] = (int) res3[i].getTop();
                 x[i] = i + 1;
 
                inclination = (distanceOne + distanceTwo) / (top[i] + bottom[i]);
-                if (!(inclination < 0.93 && inclination > 0.65)) {
+                if (!(inclination < 0.93 && inclination > 0.638)) {
                     result[i] = 1; //bad posture
                 } else
                     result[i] = 0; //good posture*/
 
 
             }
+
+            suggestTime =  Arrays.toString(result).replaceAll("\\[|\\]|,|\\s]", "");
+            Toast.makeText(getApplicationContext(), suggestTime, Toast.LENGTH_SHORT).show();
 
         XYSeries resultSeries = new XYSeries("1 : Good, 0 : Bad");
 

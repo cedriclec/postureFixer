@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                               */
                             //inclination = 1.7;
 
-                            if ( !(inclination<0.93 && inclination > 0.65)) {
+                            if ( !(inclination<0.93 && inclination > 0.638)) {
                                 PendingIntent mPendingIntent = PendingIntent.getActivity(
                                         MainActivity.this,
                                         0,

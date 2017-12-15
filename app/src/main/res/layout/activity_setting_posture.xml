@@ -29,7 +29,7 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="290dp"
-        android:layout_height="293dp"
+        android:layout_height="331dp"
         android:layout_marginBottom="12dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
