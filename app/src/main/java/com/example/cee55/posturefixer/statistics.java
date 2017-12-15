@@ -23,15 +23,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class statistics extends AppCompatActivity {
-  String str =
-            "[ { 'Bottom1' : 20, 'Bottom2' : 0, 'dateTime' : '19:35', 'Top1' : 10.984, 'Top2' : 0, 'userID' : 1},"+
-                    "{ 'Bottom1' : 10, 'Bottom2' : 0, 'dateTime' : '19:40', 'Top1' : 215.354, 'Top2' : 0, 'userID' : 1}]";
-    JSONArray jarray = new JSONArray(str);
-    private String[] time = new String[jarray.length()];
-    private int[] bottom = new int[jarray.length()];
-    private int[] top = new int[jarray.length()];
-    private int[] x = new int[jarray.length()];
     private GraphicalView mChartView;
+    distanceTable res3[];
 
     public statistics() throws JSONException {
     }
@@ -47,14 +40,15 @@ public class statistics extends AppCompatActivity {
         Context context = getApplicationContext();
         distanceTable res = cloudDatabase.getOneSpecificRow("20171214", context);
         distanceTable res2 = cloudDatabase.getLastItemInserted(context);
-        distanceTable res3[] = cloudDatabase.getRowsFromDateInterval(context,"20171215144106", "20171215101010");
+         //res3 = cloudDatabase.getRowsFromDateInterval(context,"20171215144106", "20171215101010");
+        if(null!=getIntent().getStringExtra("startTime"))
+              res3 = cloudDatabase.getRowsFromDateInterval(context,getIntent().getStringExtra("startTime"), getIntent().getStringExtra("finishTime"));
+
         // ENDTEST
 
-        try {
+        if(res3.length!=0)
             drawChart();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
     }
 
     public void showExercise(View view){
@@ -65,12 +59,15 @@ public class statistics extends AppCompatActivity {
         startActivity(intent_01);
     }
 
-    private void drawChart() throws JSONException {
-        for(int i=0; i < jarray.length(); i++){
-            JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
-            time[i] = jObject.getString("dateTime");
-            bottom[i] = jObject.getInt("Bottom1");
-            top[i] = jObject.getInt("Top1");
+    private void drawChart() {
+        String[] time = new String[res3.length];
+        int[] bottom = new int[res3.length];
+        int[] top = new int[res3.length];
+        int[] x = new int[res3.length];
+        for(int i=0; i < res3.length; i++){
+            time[i] = Integer.toString((int)res3[i].getDatetime());
+            bottom[i] = (int)res3[i].getBottom();
+            top[i] = (int)res3[i].getTop();
             x[i] = i+1;
         }
 

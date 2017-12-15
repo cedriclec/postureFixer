@@ -62,7 +62,8 @@ public class MainActivity extends AppCompatActivity {
                             text.setText("Status: ".concat("Stopping"));
                             text.setTextSize(25);
                             text.setTextColor(Color.parseColor("#000000"));
-
+                            String startTime = getIntent().getStringExtra("year").concat(getIntent().getStringExtra("startHour")).concat(getIntent().getStringExtra("startMinute")).concat("00");
+                            String finishTime = getIntent().getStringExtra("year").concat(getIntent().getStringExtra("finishHour")).concat(getIntent().getStringExtra("finishMinute")).concat("00");
                             /*
                             Draw result graph part
                              */
@@ -70,11 +71,13 @@ public class MainActivity extends AppCompatActivity {
                             intent_01.putExtra("status", status);
                             intent_01.putExtra("distanceOne", getIntent().getStringExtra("distanceOne"));
                             intent_01.putExtra("distanceTwo", getIntent().getStringExtra("distanceTwo"));
+                            intent_01.putExtra("startTime", startTime);
+                            intent_01.putExtra("finishTime", finishTime);
                             startActivity(intent_01);
 
                         }
-                        if(null != getIntent().getStringExtra("finishHour") && null != getIntent().getStringExtra("startHour") && "Running".equals(getIntent().getStringExtra("status")))
-                            Toast.makeText(getApplicationContext(), "finish time".concat(getIntent().getStringExtra("finishHour").concat(getIntent().getStringExtra("finishMinute")).concat(getIntent().getStringExtra("startHour").concat(getIntent().getStringExtra("startMinute")))), Toast.LENGTH_SHORT).show();
+                        //if(null != getIntent().getStringExtra("finishHour") && null != getIntent().getStringExtra("startHour") && "Running".equals(getIntent().getStringExtra("status")))
+                          //  Toast.makeText(getApplicationContext(), "finish time".concat(getIntent().getStringExtra("year").concat(getIntent().getStringExtra("finishMinute")).concat(getIntent().getStringExtra("startHour").concat(getIntent().getStringExtra("startMinute")))), Toast.LENGTH_SHORT).show();
                         if(null != getIntent().getStringExtra("distanceOne") && null != getIntent().getStringExtra("startHour") && hour >= Integer.parseInt(getIntent().getStringExtra("startHour")) && minute >= Integer.parseInt(getIntent().getStringExtra("startMinute")) && "Running".equals(getIntent().getStringExtra("status"))
                                 && (null == getIntent().getStringExtra("finishHour") || (hour <= Integer.parseInt(getIntent().getStringExtra("finishHour")) && minute < Integer.parseInt(getIntent().getStringExtra("finishMinute"))))){
                             //TextView text = findViewById(R.id.Status);
@@ -96,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                                 1.5 < inclination < 1.8 or
                                 0.55 < inclination < 0.7  => posture is bad
                               */
-                            inclination = 1.7;
+                            //inclination = 1.7;
                             if ((1.5 < inclination && inclination < 1.8) || (0.55 < inclination && inclination < 0.75)) {
                                 PendingIntent mPendingIntent = PendingIntent.getActivity(
                                         MainActivity.this,

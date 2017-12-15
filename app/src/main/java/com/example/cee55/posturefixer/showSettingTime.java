@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Calendar;
+
 import static android.graphics.Paint.FAKE_BOLD_TEXT_FLAG;
 
 public class showSettingTime extends AppCompatActivity {
@@ -30,6 +32,11 @@ public class showSettingTime extends AppCompatActivity {
     }
 
     public void backClick(View view) {
+        Calendar oCalender = Calendar.getInstance();
+
+        int date = oCalender.get(Calendar.DATE);
+        int month = oCalender.get(Calendar.MONTH) + 1;
+        int year = oCalender.get(Calendar.YEAR);
         Intent intent_01 = new Intent(getApplicationContext(), MainActivity.class);
         intent_01.putExtra("status", "Running");
         intent_01.putExtra("startHour", getIntent().getStringExtra("startHour"));
@@ -38,6 +45,7 @@ public class showSettingTime extends AppCompatActivity {
         intent_01.putExtra("finishMinute", getIntent().getStringExtra("finishMinute"));
         intent_01.putExtra("distanceOne", getIntent().getStringExtra("distanceOne"));
         intent_01.putExtra("distanceTwo", getIntent().getStringExtra("distanceTwo"));
+        intent_01.putExtra("year", Integer.toString(year).concat(Integer.toString(month)).concat(Integer.toString(date)));
         startActivity(intent_01);
     }
 }
