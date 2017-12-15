@@ -31,9 +31,6 @@ public class statistics extends AppCompatActivity {
     private GraphicalView mChartView;
     distanceTable res3[];
 
-    public statistics() throws JSONException {
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +47,7 @@ public class statistics extends AppCompatActivity {
 
         // ENDTEST
 
-        if(res3.length!=0)
+        if(res3.length!=0 && getIntent().getStringExtra("distanceOne")!= null)
             drawChart();
         else
             Toast.makeText(getApplicationContext(),  "null", Toast.LENGTH_SHORT).show();
@@ -71,17 +68,17 @@ public class statistics extends AppCompatActivity {
         int[] top = new int[res3.length];
         int[] x = new int[res3.length];
         int[] result = new int[res3.length];
-        /*if(getIntent().getStringExtra("distanceOne")!= null && getIntent().getStringExtra("distanceTwo")!= null) {
+
             double distanceOne = Double.parseDouble(getIntent().getStringExtra("distanceOne"));
             double distanceTwo = Double.parseDouble(getIntent().getStringExtra("distanceTwo"));
-            double inclination;*/
+            double inclination;
             for (int i = 0; i < res3.length; i++) {
                 time[i] = Integer.toString((int) res3[i].getDatetime());
                 bottom[i] = (int) res3[i].getBottom();
                 top[i] = (int) res3[i].getTop();
                 x[i] = i + 1;
 
-               /* inclination = (distanceOne + distanceTwo) / (top[i] + bottom[i]);
+               inclination = (distanceOne + distanceTwo) / (top[i] + bottom[i]);
                 if (!(inclination < 0.93 && inclination > 0.65)) {
                     result[i] = 1; //bad posture
                 } else
@@ -89,72 +86,33 @@ public class statistics extends AppCompatActivity {
 
 
             }
-      //  }
 
-
-// Creating an  XYSeries for Income
-        XYSeries bottomSeries = new XYSeries("Bottom");
-
-// Creating an  XYSeries for Expense
-        XYSeries topSeries = new XYSeries("Top");
-
-        //XYSeries resultSeries = new XYSeries("Result");
+        XYSeries resultSeries = new XYSeries("1 : Good, 0 : Bad");
 
 // Adding data to Income and Expense Series
         for(int i=0;i<x.length;i++){
-            bottomSeries.add(x[i], bottom[i]);
-            topSeries.add(x[i],top[i]);
-          //  resultSeries.add(x[i], result[i]);
+            resultSeries.add(x[i], result[i]);
         }
 
 // Creating a dataset to hold each series
         XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
 
-// Adding bottom Series to the dataset
-        dataset.addSeries(bottomSeries);
 
-// Adding Expense Series to dataset
-        dataset.addSeries(topSeries);
+        dataset.addSeries(resultSeries);
 
-      //  dataset.addSeries(resultSeries);
 
-// Creating XYSeriesRenderer to customize bottomSeries
-        XYSeriesRenderer bottomRenderer = new XYSeriesRenderer();
-        bottomRenderer.setColor(Color.DKGRAY);
-        bottomRenderer.setPointStyle(PointStyle.CIRCLE);
-        bottomRenderer.setFillPoints(true);
-        bottomRenderer.setLineWidth(2);
-        bottomRenderer.setDisplayChartValues(true);
-
-// Creating XYSeriesRenderer to customize expenseSeries
-        XYSeriesRenderer topRenderer = new XYSeriesRenderer();
-        topRenderer.setColor(Color.RED);
-        topRenderer.setPointStyle(PointStyle.CIRCLE);
-        topRenderer.setFillPoints(true);
-        topRenderer.setLineWidth(2);
-        topRenderer.setDisplayChartValues(true);
-
-/*        XYSeriesRenderer resultRenderer = new XYSeriesRenderer();
-        bottomRenderer.setColor(Color.DKGRAY);
-        bottomRenderer.setPointStyle(PointStyle.CIRCLE);
-        bottomRenderer.setFillPoints(true);
-        bottomRenderer.setLineWidth(2);
-        bottomRenderer.setDisplayChartValues(true);*/
+       XYSeriesRenderer resultRenderer = new XYSeriesRenderer();
+        resultRenderer.setColor(Color.DKGRAY);
+        resultRenderer.setPointStyle(PointStyle.CIRCLE);
+        resultRenderer.setFillPoints(true);
+        resultRenderer.setLineWidth(2);
+        resultRenderer.setDisplayChartValues(true);
 
 // Creating a XYMultipleSeriesRenderer to customize the whole chart
-        int[] temp = new int[bottom.length + top.length];
-        System.arraycopy(bottom, 0, temp, 0, bottom.length);
-        System.arraycopy(top, 0, temp, 0, top.length);
-        int max = 0;
-        for (int index = 0; index < temp.length; index++){
-            if(max < temp[index])
-                max = temp[index];
-        }
-        max = max + 10;
 
         XYMultipleSeriesRenderer multiRenderer = new XYMultipleSeriesRenderer();
         multiRenderer.setGridLineWidth(10);
-        multiRenderer.setYAxisMax(max);
+        multiRenderer.setYAxisMax(1.5);
         multiRenderer.setYAxisMin(0);
         multiRenderer.setXAxisMin(0.97);
         multiRenderer.setXAxisMax(time.length+0.03);
@@ -177,26 +135,11 @@ public class statistics extends AppCompatActivity {
             multiRenderer.addXTextLabel(i+1, time[i]);
         }
 
-// Adding bottomRenderer and topRenderer to multipleRenderer
-        // Note: The order of adding dataseries to dataset and renderers to multipleRenderer
-        // should be same
-        multiRenderer.addSeriesRenderer(bottomRenderer);
-        multiRenderer.addSeriesRenderer(topRenderer);
-        //multiRenderer.addSeriesRenderer(resultRenderer);
+        multiRenderer.addSeriesRenderer(resultRenderer);
 
-// Creating an intent to plot line chart using dataset and multipleRenderer
-        // Intent intent = ChartFactory.getLineChartIntent(getBaseContext(), dataset, multiRenderer);
-
-
-        // Start Activity
-        //startActivity(intent);
 
         if (mChartView == null) {
             LinearLayout layout = (LinearLayout) findViewById(R.id.chart_line);
-           /* ViewGroup.LayoutParams params = layout.getLayoutParams();
-            params.height = 100;
-            params.width = 100;
-            layout.setLayoutParams(params);*/
           mChartView = ChartFactory.getLineChartView(this, dataset, multiRenderer);
             multiRenderer.setClickEnabled(true);
             multiRenderer.setSelectableBuffer(10);

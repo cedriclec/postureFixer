@@ -166,15 +166,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void menuStatistics(View view){
-       /* if(null == getIntent().getStringExtra("distanceOne")){
+        if(null == getIntent().getStringExtra("distanceOne")){
             Toast.makeText(getApplicationContext(), "Please do 'Settinng Posture' step before running the detecting program" , Toast.LENGTH_SHORT).show();
         }
-        else {*/
+        else {
             Intent intent_01 = new Intent(getApplicationContext(), statistics.class);
             intent_01.putExtra("distanceOne", getIntent().getStringExtra("distanceOne"));
             intent_01.putExtra("distanceTwo", getIntent().getStringExtra("distanceTwo"));
             intent_01.putExtra("status", status);
             startActivity(intent_01);
-       // }
+        }
     }
 }
