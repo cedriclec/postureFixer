@@ -113,24 +113,26 @@ tempDistanceBottom = 0
 
 sensorReadingCounter = 0 
 badSensorReadingCounter = 0
-# average sensor readings by taking multiple times 
-while sensorReadingCounter<4:
-        tempDistanceTop = readSensorDistance("TOP1")
-        tempDistanceBottom = readSensorDistance("BOTTOM1")    
-        if tempDistanceTop<300 and tempDistanceBottom<300:
-                distanceTop += tempDistanceTop
-                distanceBottom += tempDistanceBottom
-                time.sleep(2)
-                sensorReadingCounter=sensorReadingCounter+1
-        else:
-                badSensorReadingCounter = badSensorReadingCounter+1
+# average sensor readings by taking multiple times
+while 1: 
+        while sensorReadingCounter<4:
+                tempDistanceTop = readSensorDistance("TOP1")
+                tempDistanceBottom = readSensorDistance("BOTTOM1")    
+                if tempDistanceTop<300 and tempDistanceBottom<300:
+                        distanceTop += tempDistanceTop
+                        distanceBottom += tempDistanceBottom
+                        time.sleep(1)
+                        sensorReadingCounter=sensorReadingCounter+1
+                else:
+                        badSensorReadingCounter = badSensorReadingCounter+1
 
-        if badSensorReadingCounter > 3:
-                raise Exception("Too many bad sensor readings. Reposition sensors and try again.")
+                if badSensorReadingCounter > 3:
+                        raise Exception("Too many bad sensor readings. Reposition sensors and try again.")
 
-distanceTopAvg = distanceTop / sensorReadingCounter 
-distanceBottomAvg = distanceBottom / sensorReadingCounter
-
-JSONPayload = createJsonSensorsDistance(distanceTopAvg, distanceBottomAvg)
-myAWSIoTMQTTClient.publish(topic, JSONPayload, 1)
-print(JSONPayload)
+        distanceTopAvg = distanceTop / sensorReadingCounter 
+        distanceBottomAvg = distanceBottom / sensorReadingCounter
+        badSensorReadings = 0
+        sensorReadingCounter = 0 
+        JSONPayload = createJsonSensorsDistance(distanceTopAvg, distanceBottomAvg)
+        myAWSIoTMQTTClient.publish(topic, JSONPayload, 1)
+        print(JSONPayload)
