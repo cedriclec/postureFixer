@@ -13,7 +13,7 @@ import java.util.Calendar;
 
 public class settingTime extends AppCompatActivity {
     String status;
-    Intent intent_01;
+    //Intent intent_01;
 
 
     @Override
@@ -30,6 +30,7 @@ public class settingTime extends AppCompatActivity {
     }
 
     public void backClick(View view) {
+        Intent intent_01 = new Intent(getApplicationContext(), MainActivity.class);
         intent_01.putExtra("distanceOne", getIntent().getStringExtra("distanceOne"));
         intent_01.putExtra("distanceTwo", getIntent().getStringExtra("distanceTwo"));
         startActivity(intent_01);

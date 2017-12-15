@@ -76,6 +76,18 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(intent_01);
 
                         }
+                        if("Running".equals(getIntent().getStringExtra("status"))){
+                            Context context = getApplicationContext();
+                            distanceTable res = cloudDatabase.getLastItemInserted(context);
+                            double top = res.getTop();
+                            double bottom = res.getBottom();
+                            distanceOne = Double.parseDouble(getIntent().getStringExtra("distanceOne"));
+                            distanceTwo = Double.parseDouble(getIntent().getStringExtra("distanceTwo"));
+                            inclination = (distanceOne + distanceTwo) / (top + bottom);
+                            Toast.makeText(getApplicationContext(),  "Top".concat(Integer.toString((int)top)).concat(" Bottom").concat(Integer.toString((int)bottom)).concat("INCL ").concat(Double.toString(inclination)), Toast.LENGTH_LONG).show();
+                        }
+
+
                         //if(null != getIntent().getStringExtra("finishHour") && null != getIntent().getStringExtra("startHour") && "Running".equals(getIntent().getStringExtra("status")))
                           //  Toast.makeText(getApplicationContext(), "finish time".concat(getIntent().getStringExtra("year").concat(getIntent().getStringExtra("finishMinute")).concat(getIntent().getStringExtra("startHour").concat(getIntent().getStringExtra("startMinute")))), Toast.LENGTH_SHORT).show();
                         if(null != getIntent().getStringExtra("distanceOne") && null != getIntent().getStringExtra("startHour") && hour >= Integer.parseInt(getIntent().getStringExtra("startHour")) && minute >= Integer.parseInt(getIntent().getStringExtra("startMinute")) && "Running".equals(getIntent().getStringExtra("status"))
@@ -95,12 +107,13 @@ public class MainActivity extends AppCompatActivity {
                             double top = res.getTop();
                             double bottom = res.getBottom();
                             inclination = (distanceOne + distanceTwo) / (top + bottom);
-                             /* 0.84 <inclination < 0.96 => posture is good
-                                1.5 < inclination < 1.8 or
-                                0.55 < inclination < 0.7  => posture is bad
+                             /* 0.76 <inclination < 0.93 => posture is good
+                                0.98 < inclination < 1.3 or
+                               0.57< inclination < 0.69  => posture is bad
                               */
                             //inclination = 1.7;
-                            if ((1.5 < inclination && inclination < 1.8) || (0.55 < inclination && inclination < 0.75)) {
+
+                            if ( !(inclination<0.93 && inclination > 0.65)) {
                                 PendingIntent mPendingIntent = PendingIntent.getActivity(
                                         MainActivity.this,
                                         0,
@@ -128,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         };
 
             mTimer = new Timer();
-        mTimer.schedule(mTask, 0, 1000*5);  //every 5 seconds, check the status of program.
+        mTimer.schedule(mTask, 0, 1000*20);  //every 5 seconds, check the status of program.
     }
 
     /**

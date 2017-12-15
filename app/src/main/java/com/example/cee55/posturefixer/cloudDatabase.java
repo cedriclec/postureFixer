@@ -37,7 +37,7 @@ public class cloudDatabase extends AppCompatActivity {
         Log.d("Cloud Database", "Get rows from " + dateBegin + " to " + dateEnd);
 
         final DynamoDBMapper mapper = getMapperForRequest(context);
-        final distanceTable[] resTmp = new distanceTable[100]; //Create array to return value from thread
+        final distanceTable[] resTmp = new distanceTable[200]; //Create array to return value from thread
         final int[] nbRow = new int[1];
         Runnable runnable = new Runnable() {
             public void run() {

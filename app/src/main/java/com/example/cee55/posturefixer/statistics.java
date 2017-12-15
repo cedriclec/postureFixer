@@ -1,13 +1,18 @@
 package com.example.cee55.posturefixer;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.cee55.posturefixer.tableDataBase.distanceTable;
 
@@ -38,16 +43,17 @@ public class statistics extends AppCompatActivity {
 
         // TEST
         Context context = getApplicationContext();
-        distanceTable res = cloudDatabase.getOneSpecificRow("20171214", context);
-        distanceTable res2 = cloudDatabase.getLastItemInserted(context);
-         //res3 = cloudDatabase.getRowsFromDateInterval(context,"20171215144106", "20171215101010");
-        if(null!=getIntent().getStringExtra("startTime"))
-              res3 = cloudDatabase.getRowsFromDateInterval(context,getIntent().getStringExtra("startTime"), getIntent().getStringExtra("finishTime"));
+       // distanceTable res2 = cloudDatabase.getLastItemInserted(context);
+         res3 = cloudDatabase.getRowsFromDateInterval(context,"20171215175519", "20171215200000");
+        //if(null!=getIntent().getStringExtra("startTime"))
+          //    res3 = cloudDatabase.getRowsFromDateInterval(context,getIntent().getStringExtra("startTime"), getIntent().getStringExtra("finishTime"));
 
         // ENDTEST
 
         if(res3.length!=0)
             drawChart();
+        else
+            Toast.makeText(getApplicationContext(),  "null", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -64,11 +70,13 @@ public class statistics extends AppCompatActivity {
         int[] bottom = new int[res3.length];
         int[] top = new int[res3.length];
         int[] x = new int[res3.length];
+        int[] result = new int[res3.length];
         for(int i=0; i < res3.length; i++){
             time[i] = Integer.toString((int)res3[i].getDatetime());
             bottom[i] = (int)res3[i].getBottom();
             top[i] = (int)res3[i].getTop();
             x[i] = i+1;
+
         }
 
 
