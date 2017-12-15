@@ -112,27 +112,28 @@ tempDistanceTop = 0
 tempDistanceBottom = 0
 
 sensorReadingCounter = 0 
-badSensorReadingCounter = 0
+goodSensorReadingCounter = 0
 # average sensor readings by taking multiple times
 while 1: 
-        while sensorReadingCounter<4:
+        while sensorReadingCounter<6:
                 tempDistanceTop = readSensorDistance("TOP1")
                 tempDistanceBottom = readSensorDistance("BOTTOM1")    
                 if tempDistanceTop<300 and tempDistanceBottom<300:
                         distanceTop += tempDistanceTop
                         distanceBottom += tempDistanceBottom
-                        time.sleep(1)
-                        sensorReadingCounter=sensorReadingCounter+1
-                else:
-                        badSensorReadingCounter = badSensorReadingCounter+1
+                        goodSensorReadingCounter = goodSensorReadingCounter+1
+                sensorReadingCounter=sensorReadingCounter+1
+                time.sleep(1)
+                #if badSensorReadingCounter > 3:
+                        #raise Exception("Too many bad sensor readings. Reposition sensors and try again.")
 
-                if badSensorReadingCounter > 3:
-                        raise Exception("Too many bad sensor readings. Reposition sensors and try again.")
-
-        distanceTopAvg = distanceTop / sensorReadingCounter 
-        distanceBottomAvg = distanceBottom / sensorReadingCounter
-        badSensorReadings = 0
-        sensorReadingCounter = 0 
+        distanceTopAvg = distanceTop / goodSensorReadingCounter 
+        distanceBottomAvg = distanceBottom / goodSensorReadingCounter
+        sensorReadingCounter = 0
+        goodSensorReadingCounter = 0
+        distanceTop = 0
+        distanceBottom = 0 
         JSONPayload = createJsonSensorsDistance(distanceTopAvg, distanceBottomAvg)
         myAWSIoTMQTTClient.publish(topic, JSONPayload, 1)
         print(JSONPayload)
+        time.sleep(5)
