@@ -85,7 +85,7 @@ public class statistics extends AppCompatActivity {
                 x[i] = i + 1;
 
                inclination = (distanceOne + distanceTwo) / (top[i] + bottom[i]);
-                if (!(inclination < 0.93 && inclination > 0.638)) {
+                if (!(inclination < 0.87 && inclination > 0.638)) {
                     result[i] = 1; //bad posture
                 } else
                     result[i] = 0; //good posture*/
@@ -96,7 +96,7 @@ public class statistics extends AppCompatActivity {
             suggestTime =  Arrays.toString(result).replaceAll("\\[|\\]|,|\\s]", "");
             Toast.makeText(getApplicationContext(), suggestTime, Toast.LENGTH_SHORT).show();
 
-        XYSeries resultSeries = new XYSeries("1 : Good, 0 : Bad");
+        XYSeries resultSeries = new XYSeries("1 : Bad 0 : Good");
 
 // Adding data to Income and Expense Series
         for(int i=0;i<x.length;i++){

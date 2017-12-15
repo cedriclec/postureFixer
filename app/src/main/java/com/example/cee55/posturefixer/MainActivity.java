@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                               */
                             //inclination = 1.7;
 
-                            if ( !(inclination<0.93 && inclination > 0.638)) {
+                            if ( !(inclination<0.87 && inclination > 0.665)) {
                                 PendingIntent mPendingIntent = PendingIntent.getActivity(
                                         MainActivity.this,
                                         0,
@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         };
 
             mTimer = new Timer();
-        mTimer.schedule(mTask, 0, 1000*20);  //every 5 seconds, check the status of program.
+        mTimer.schedule(mTask, 0, 1000*8);  //every 5 seconds, check the status of program.
     }
 
     /**
@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
         if(null == getIntent().getStringExtra("distanceOne")){
             Toast.makeText(getApplicationContext(), "Please do 'Settinng Posture' step before running the detecting program" , Toast.LENGTH_SHORT).show();
         }
-        else {
+        else if (null != getIntent().getStringExtra("finishHour")){
             Intent intent_01 = new Intent(getApplicationContext(), statistics.class);
             intent_01.putExtra("distanceOne", getIntent().getStringExtra("distanceOne"));
             intent_01.putExtra("distanceTwo", getIntent().getStringExtra("distanceTwo"));
