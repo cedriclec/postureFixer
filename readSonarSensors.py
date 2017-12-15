@@ -102,7 +102,7 @@ myAWSIoTMQTTClient.configureMQTTOperationTimeout(5)  # 5 sec
 # Connect and subscribe to AWS IoT
 myAWSIoTMQTTClient.connect()
 myAWSIoTMQTTClient.subscribe(topic, 1, customCallback)
-time.sleep(3)
+#time.sleep(3)
 
 # Publish to the same topic in a loop forever
 
@@ -123,7 +123,6 @@ while 1:
                         distanceBottom += tempDistanceBottom
                         goodSensorReadingCounter = goodSensorReadingCounter+1
                 sensorReadingCounter=sensorReadingCounter+1
-                time.sleep(1)
                 #if badSensorReadingCounter > 3:
                         #raise Exception("Too many bad sensor readings. Reposition sensors and try again.")
 
@@ -136,4 +135,3 @@ while 1:
         JSONPayload = createJsonSensorsDistance(distanceTopAvg, distanceBottomAvg)
         myAWSIoTMQTTClient.publish(topic, JSONPayload, 1)
         print(JSONPayload)
-        time.sleep(5)
