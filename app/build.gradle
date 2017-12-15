@@ -28,5 +28,5 @@ dependencies {
     compile 'com.amazonaws:aws-android-sdk-ddb:2.+'
     compile 'com.amazonaws:aws-android-sdk-ddb-mapper:2.+'
     compile 'com.amazonaws:aws-android-sdk-core:2.+'
-    implementation files('build/generated/achartengine-1.2.0.jar')
+    implementation files('build/achartengine-1.2.0.jar')
 }

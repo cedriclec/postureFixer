@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                         int hour = oCalender.get(Calendar.HOUR_OF_DAY);
                         int minute = oCalender.get(Calendar.MINUTE);
                         if(null != getIntent().getStringExtra("finishHour") && hour == Integer.parseInt(getIntent().getStringExtra("finishHour")) && minute >= Integer.parseInt(getIntent().getStringExtra("finishMinute")) &&  getIntent().getStringExtra("status").equals("Running")) {
-                            Toast.makeText(getApplicationContext(), "reach", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getApplicationContext(), "reach", Toast.LENGTH_SHORT).show();
                             getIntent().removeExtra("status");
                             getIntent().putExtra("status", "Stopping");
                             TextView text = findViewById(R.id.Status);
@@ -73,30 +73,30 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(intent_01);
 
                         }
-                        if(null != getIntent().getStringExtra("distanceOne") && null != getIntent().getStringExtra("startHour") && hour >= Integer.parseInt(getIntent().getStringExtra("startHour")) && minute >= Integer.parseInt(getIntent().getStringExtra("startMinute"))
+                        if(null != getIntent().getStringExtra("finishHour") && null != getIntent().getStringExtra("startHour") && "Running".equals(getIntent().getStringExtra("status")))
+                            Toast.makeText(getApplicationContext(), "finish time".concat(getIntent().getStringExtra("finishHour").concat(getIntent().getStringExtra("finishMinute")).concat(getIntent().getStringExtra("startHour").concat(getIntent().getStringExtra("startMinute")))), Toast.LENGTH_SHORT).show();
+                        if(null != getIntent().getStringExtra("distanceOne") && null != getIntent().getStringExtra("startHour") && hour >= Integer.parseInt(getIntent().getStringExtra("startHour")) && minute >= Integer.parseInt(getIntent().getStringExtra("startMinute")) && "Running".equals(getIntent().getStringExtra("status"))
                                 && (null == getIntent().getStringExtra("finishHour") || (hour <= Integer.parseInt(getIntent().getStringExtra("finishHour")) && minute < Integer.parseInt(getIntent().getStringExtra("finishMinute"))))){
-                            TextView text = findViewById(R.id.Status);
-                            if(null == getIntent().getStringExtra("finishHour"))
+                            //TextView text = findViewById(R.id.Status);
+                           /* if(null == getIntent().getStringExtra("finishHour"))
                                 Toast.makeText(getApplicationContext(),  getIntent().getStringExtra("status"), Toast.LENGTH_SHORT).show();
                                 //Toast.makeText(getApplicationContext(), "start".concat(getIntent().getStringExtra("startHour").concat(getIntent().getStringExtra("startMinute"))), Toast.LENGTH_SHORT).show();
                             else
                                 Toast.makeText(getApplicationContext(), getIntent().getStringExtra("finishHour").concat(getIntent().getStringExtra("finishMinute")), Toast.LENGTH_SHORT).show();
-
+*/
                             distanceOne = Double.parseDouble(getIntent().getStringExtra("distanceOne"));
                             distanceTwo = Double.parseDouble(getIntent().getStringExtra("distanceTwo"));
                             // TEST
                             Context context = getApplicationContext();
-                            distanceTable res = cloudDatabase.getOneSpecificRow("20171214", context);
+                            distanceTable res = cloudDatabase.getLastItemInserted(context);
                             double top = res.getTop();
                             double bottom = res.getBottom();
-                            top = 70;
-                            bottom = 12;
                             inclination = (distanceOne + distanceTwo) / (top + bottom);
                              /* 0.84 <inclination < 0.96 => posture is good
                                 1.5 < inclination < 1.8 or
                                 0.55 < inclination < 0.7  => posture is bad
                               */
-                             inclination = 1.7;
+                            inclination = 1.7;
                             if ((1.5 < inclination && inclination < 1.8) || (0.55 < inclination && inclination < 0.75)) {
                                 PendingIntent mPendingIntent = PendingIntent.getActivity(
                                         MainActivity.this,
