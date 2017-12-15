@@ -47,6 +47,7 @@ public class statistics extends AppCompatActivity {
         Context context = getApplicationContext();
         distanceTable res = cloudDatabase.getOneSpecificRow("20171214", context);
         distanceTable res2 = cloudDatabase.getLastItemInserted(context);
+        distanceTable res3[] = cloudDatabase.getRowsFromDateInterval(context,"20171215144106", "20171215101010");
         // ENDTEST
 
         try {
