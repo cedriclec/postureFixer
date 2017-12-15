@@ -54,7 +54,7 @@ def createJsonSensorsDistance(distanceTop, distanceBottom, userId = 1):
     #Limited to three number after virgule
     distanceTop = round(distanceTop, 3)
     distanceBottom = round(distanceBottom, 3)
-    jsonSensors = json.dumps({"dateTime" : str(datetime.datetime.now().strftime("%Y%m%d%H%M%S")), "userID" : userId, "Top" : distanceTop, "Bottom" : distanceBottom})
+    jsonSensors = json.dumps({"dateTime" : str(datetime.datetime.now().strftime("%Y%m%d%H%M%S")), "userID" : str(userId), "Top" : str(distanceTop), "Bottom" : str(distanceBottom)})
     return jsonSensors
 
 host = "all6qkgnylmz8.iot.us-west-2.amazonaws.com" #args.host
@@ -111,19 +111,25 @@ distanceBottom = 0
 tempDistanceTop = 0
 tempDistanceBottom = 0
 
-i = 0 
-# call 5 times
-while i<4:
+sensorReadingCounter = 0 
+badSensorReadingCounter = 0
+# average sensor readings by taking multiple times 
+while sensorReadingCounter<4:
         tempDistanceTop = readSensorDistance("TOP1")
         tempDistanceBottom = readSensorDistance("BOTTOM1")    
         if tempDistanceTop<300 and tempDistanceBottom<300:
                 distanceTop += tempDistanceTop
                 distanceBottom += tempDistanceBottom
-                time.sleep(3)
-                i=i+1
+                time.sleep(2)
+                sensorReadingCounter=sensorReadingCounter+1
+        else:
+                badSensorReadingCounter = badSensorReadingCounter+1
 
-distanceTopAvg = distanceTop / i 
-distanceBottomAvg = distanceBottom / i
+        if badSensorReadingCounter > 3:
+                raise Exception("Too many bad sensor readings. Reposition sensors and try again.")
+
+distanceTopAvg = distanceTop / sensorReadingCounter 
+distanceBottomAvg = distanceBottom / sensorReadingCounter
 
 JSONPayload = createJsonSensorsDistance(distanceTopAvg, distanceBottomAvg)
 myAWSIoTMQTTClient.publish(topic, JSONPayload, 1)

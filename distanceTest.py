@@ -14,6 +14,7 @@ GPIO.output(TRIG,False)
 print ("Waiting for sensor to settle")
 
 i = 0
+badCounter = 0
 while i<5:
 	time.sleep(5)
 	GPIO.output(TRIG, True)
@@ -32,6 +33,14 @@ while i<5:
 	distance = round(distance, 2)
 
 	print("Distance: "+str(distance)+"cm")
-	i = i+1
+	if distance<300:
+                i = i+1
+        else:
+                badCounter = badCounter+1
+        
+        if badCounter>2:
+                GPIO.cleanup()
+                raise Exception("Too many bad readings.")
 
 GPIO.cleanup()
+print("Program finished executing gracefully.")
